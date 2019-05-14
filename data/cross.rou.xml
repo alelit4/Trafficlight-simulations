@@ -1,0 +1,38 @@
+<routes>
+        <vType id="typeWE" vClass="passenger" accel="0.8" decel="4.5" sigma="0.5" length="5" minGap="2.5" maxSpeed="16.67" guiShape="passenger"/>
+        <vType id="typeNS" accel="0.8" decel="4.5" sigma="0.5" length="5" minGap="3" maxSpeed="60" jmDriveAfterRedTime="1000" guiShape="car"/>
+
+        <route id="right" edges="51o 1i 2o 52i" />
+        <route id="left" edges="52o 2i 1o 51i" />
+        <route id="down" edges="54o 4i 3o 53i" />
+    <vehicle id="down_0" type="typeNS" route="down" depart="0"  color="1,0,0" >  
+                                <param key="has.driverstate.device" value="true"/>
+                            </vehicle>            
+    <vehicle id="down_1" type="typeNS" route="down" depart="1"  color="1,0,0" >  
+                                <param key="has.driverstate.device" value="true"/>
+                            </vehicle>            
+    <vehicle id="down_2" type="typeNS" route="down" depart="2"  color="1,0,0" >  
+                                <param key="has.driverstate.device" value="true"/>
+                            </vehicle>            
+    <vehicle id="down_3" type="typeNS" route="down" depart="3"  color="1,0,0" >  
+                                <param key="has.driverstate.device" value="true"/>
+                            </vehicle>            
+    <vehicle id="down_4" type="typeNS" route="down" depart="4"  color="1,0,0" >  
+                                <param key="has.driverstate.device" value="true"/>
+                            </vehicle>            
+    <vehicle id="down_5" type="typeNS" route="down" depart="5"  color="1,0,0" >  
+                                <param key="has.driverstate.device" value="true"/>
+                            </vehicle>            
+    <vehicle id="down_6" type="typeNS" route="down" depart="6"  color="1,0,0" >  
+                                <param key="has.driverstate.device" value="true"/>
+                            </vehicle>            
+    <vehicle id="down_7" type="typeNS" route="down" depart="7"  color="1,0,0" >  
+                                <param key="has.driverstate.device" value="true"/>
+                            </vehicle>            
+    <vehicle id="down_8" type="typeNS" route="down" depart="8"  color="1,0,0" >  
+                                <param key="has.driverstate.device" value="true"/>
+                            </vehicle>            
+    <vehicle id="down_9" type="typeNS" route="down" depart="9"  color="1,0,0" >  
+                                <param key="has.driverstate.device" value="true"/>
+                            </vehicle>            
+</routes>
