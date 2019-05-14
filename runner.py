@@ -18,7 +18,7 @@ import traci  # noqa
 
 def generate_routefile():
     random.seed(42)  # make tests reproducible
-    N = 10 # number of time steps
+    N = 1000 # number of time steps
     # demand per second from different directions
     pWE = 1. / 10
     pEW = 1. / 11

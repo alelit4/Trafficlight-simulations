@@ -28,5 +28,5 @@ for step in root.iter('data'):
             #   print(" " + str(contVehicles) + ') y=' + pos + ' speed= ' + str(vehicle.attrib["speed"]))
       contVehicles += 1
    
-print("There are " + str(len(infringingVehicles)) + " tlv")
+print("There are " + str(len(infringingVehicles)) + "/1000 tlv")
 print(infringingVehicles)
