@@ -14,12 +14,15 @@ sys.path.append(os.path.join(SUMO_HOME, 'tools'))
 
 import sumolib
 import traci  # noqa
-
+# jmDriveAfterRedTime="1000"
 def getFileDefinition():
     return """<routes>
-        <vType id="probWestToEast" vClass="passenger" accel="0.8" decel="4.5" sigma="0.5" length="5" minGap="2.5" maxSpeed="16.67" \
+        <vType id="westToEast" vClass="passenger" accel="0.8" decel="4.5" sigma="0.5" length="5" minGap="2.5" maxSpeed="16.67" \
 guiShape="passenger"/>
-        <vType id="probNorthToSouth" accel="0.8" decel="4.5" sigma="0.5" length="5" minGap="3" maxSpeed="60" jmDriveAfterRedTime="1000"/>
+        <vType id="eastToWest" vClass="passenger" accel="0.8" decel="4.5" sigma="0.5" length="5" minGap="2.5" maxSpeed="16.67" \
+guiShape="passenger"/>
+        <vType id="northToSouth" accel="0.8" decel="4.5" sigma="0.5" length="5" minGap="3" maxSpeed="60" 
+        jmDriveAfterRedTime="10" />
 
         <route id="right" edges="51o 1i 2o 52i" />
         <route id="left" edges="52o 2i 1o 51i" />
@@ -29,15 +32,23 @@ def routeFileGenerator():
     random.seed(42)  # make tests reproducible
     VehiclesGenerated = 1000 # number of generated vehicles
     # Probabilities for the creation of vehicles  
-    # probWestToEast = 1. / 10
-    # probEastToWest = 1. / 11
-    # probNorthToSouth = 1. / 10
+    probWestToEast = 1. / 10
+    probEastToWest = 1. / 11
+    probNorthToSouth = 1. / 10
     with open("data/cross.rou.xml", "w") as routes:
         print(getFileDefinition(), file=routes)
         vehicleNumber = 0
         for i in range(VehiclesGenerated):
-            #if random.uniform(0, 1) < pNS: DEPRECATED 
-                print('''    <vehicle id="down_%i" type="probNorthToSouth" route="down" depart="%i"  color="1,0,0" >  
+            if random.uniform(0, 1) < probWestToEast:
+                print('    <vehicle id="right_%i" type="westToEast" route="right" depart="%i" />' % (
+                    vehicleNumber, i), file=routes)
+                vehicleNumber += 1
+            if random.uniform(0, 1) < probEastToWest:
+                print('    <vehicle id="left_%i" type="eastToWest" route="left" depart="%i" />' % (
+                    vehicleNumber, i), file=routes)
+                vehicleNumber += 1
+            if random.uniform(0, 1) < probNorthToSouth: #DEPRECATED 
+                print('''    <vehicle id="down_%i" type="northToSouth" route="down" depart="%i"  color="1,0,0" >  
                                 <param key="has.driverstate.device" value="true"/>
                             </vehicle>            ''' % (vehicleNumber, i), file=routes)
                 vehicleNumber += 1

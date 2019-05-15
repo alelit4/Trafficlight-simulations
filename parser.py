@@ -1,34 +1,52 @@
 import xml.etree.ElementTree as ET
-root = ET.parse('fulldata.xml').getroot()
+import matplotlib.pyplot as plt
 
-isDebugging = True # if it is debugging the program is verbose 
+
+isDebugging = False # if it is debugging the program is verbose 
 infringingVehicles = [] # The list of all infractors 
-
+allIDataInfringingVehicles = {}
 # The reference of limits is based on the location of the juction
 upperLimitJunction = 500 
 lowerLimitJunction = 520
 
-for step in root.iter('data'):
+def getJsonVehicle(vehicle, step):
+   return {'step' : step, 'speed' : vehicle.attrib["speed"], 'pos' : float(vehicle.attrib["y"]) } 
 
-   trafficlights = step.find('tls')
-   # Too see the state of the junction
-   #for tl in trafficlights.iter('trafficlight'):
-   #   print(" " + str(tl.attrib["state"]))
+def startParser(infringingVehicles, allIDataInfringingVehicles):
+   root = ET.parse('fulldata.xml').getroot()
+
+   for step in root.iter('data'):
+      trafficlights = step.find('tls')
+      trafficlightState = trafficlights[0].attrib["state"][0]  # rGrG state
+      allVehiclesInStep = step.find('vehicles')
+      vehiclesInStep = 1
+      for vehicle in allVehiclesInStep.iter('vehicle'):
+         locationY = float(vehicle.attrib["y"])
+         currentVehicleId = vehicle.attrib["id"]
+         if(trafficlightState == "r") and ('down' in currentVehicleId):
+            if (locationY > upperLimitJunction) and (locationY < lowerLimitJunction):
+               if isDebugging:
+                  print('Step %s ----->> Trafficlight Infraction!' % step.attrib["timestep"])
+                  print( '%s -> pos = %i' % (currentVehicleId, locationY))
+               if currentVehicleId not in infringingVehicles:
+                  infringingVehicles.append(currentVehicleId)
+                  allIDataInfringingVehicles[currentVehicleId] = []
+               allIDataInfringingVehicles[currentVehicleId].append(getJsonVehicle(vehicle, step.attrib["timestep"])) 
+         vehiclesInStep += 1
    
-   trafficlightState = trafficlights[0].attrib["state"][0]  # rGrG state
-   allVehiclesInStep = step.find('vehicles')
-   vehiclesInStep = 1
-   for vehicle in allVehiclesInStep.iter('vehicle'):
-      locationY = float(vehicle.attrib["y"])
-      currentVehicleId = vehicle.attrib["id"]
-      if(trafficlightState == "r"):
-         if (locationY > upperLimitJunction) and (locationY < lowerLimitJunction):
-            if isDebugging:
-               print('Step %s ----->> Trafficlight Infraction!' % step.attrib["timestep"])
-               print( '%s -> pos = %i' % (currentVehicleId, locationY))
-            if currentVehicleId not in infringingVehicles:
-               infringingVehicles.append(currentVehicleId)
-      vehiclesInStep += 1
-   
-print('There are %i/1000 tlv' % len(infringingVehicles) )
-print(' '.join(infringingVehicles)) if isDebugging else 0
+def printInfo(infringingVehicles, allIDataInfringingVehicles):
+   print('There are %i/1000 tlv' % len(infringingVehicles) )
+   print(' '.join(infringingVehicles)) 
+   print('--------------------------------------')
+   print(allIDataInfringingVehicles)
+   for id, vehicleData in sorted(allIDataInfringingVehicles.items()):
+      print('Vehicle (%s) route = %s' % (id, vehicleData))
+    
+def getBasicPlot(infringingVehicles):
+   plt.plot(range(0, len(infringingVehicles)), range(0, len(infringingVehicles)))
+   plt.ylabel('some numbers')
+   plt.show()
+
+if __name__ == "__main__":
+   startParser(infringingVehicles, allIDataInfringingVehicles)
+   printInfo(infringingVehicles, allIDataInfringingVehicles) if isDebugging else 0
