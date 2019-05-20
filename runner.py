@@ -8,13 +8,16 @@ import sys
 import optparse
 import random
 
-SUMO_HOME = os.environ.get('SUMO_HOME',
-                           os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..'))
-sys.path.append(os.path.join(SUMO_HOME, 'tools'))
-
 import sumolib
-import traci  # noqa
-# jmDriveAfterRedTime="1000"
+import traci
+
+
+def init():
+    SUMO_HOME = os.environ.get('SUMO_HOME',
+                           os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..'))
+    sys.path.append(os.path.join(SUMO_HOME, 'tools'))
+
+
 def getFileDefinition():
     return """<routes>
         <vType id="westToEast" vClass="passenger" accel="0.8" decel="4.5" sigma="0.5" length="5" minGap="2.5" maxSpeed="16.67" \
@@ -22,7 +25,7 @@ guiShape="passenger"/>
         <vType id="eastToWest" vClass="passenger" accel="0.8" decel="4.5" sigma="0.5" length="5" minGap="2.5" maxSpeed="16.67" \
 guiShape="passenger"/>
         <vType id="northToSouth" accel="0.8" decel="4.5" sigma="0.5" length="5" minGap="3" maxSpeed="60" 
-        jmDriveAfterRedTime="10" />
+        jmDriveAfterRedTime="10000" />
 
         <route id="right" edges="51o 1i 2o 52i" />
         <route id="left" edges="52o 2i 1o 51i" />
@@ -60,7 +63,7 @@ def run():
     # we start with phase 2 where EW has green
     traci.trafficlight.setPhase("0", 2)
     while traci.simulation.getMinExpectedNumber() > 0:
-        #print("-->" + str(traci.getIDList()))
+        # print("-->" + str(traci.getIDList()))
         traci.simulationStep()
         step += 1
     traci.close()
@@ -77,6 +80,7 @@ def getOptions():
 
 # this is the main entry point of this script
 if __name__ == "__main__":
+    init()
     options = getOptions()
 
     # this script has been called from the command line. It will start sumo as a
