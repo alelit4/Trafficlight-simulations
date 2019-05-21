@@ -1,6 +1,6 @@
 <routes>
-        <vType id="westToEast" vClass="passenger" accel="0.8" decel="4.5" sigma="0.5" length="5" minGap="2.5" maxSpeed="16.67" guiShape="passenger"/>
-        <vType id="eastToWest" vClass="passenger" accel="0.8" decel="4.5" sigma="0.5" length="5" minGap="2.5" maxSpeed="16.67" guiShape="passenger"/>
+        <vType id="westToEast" vClass="passenger" accel="1.8" decel="4.5" sigma="0.5" length="5" minGap="2.5" maxSpeed="50.67" guiShape="passenger"/>
+        <vType id="eastToWest" vClass="passenger" accel="1.8" decel="4.5" sigma="0.5" length="5" minGap="2.5" maxSpeed="50.67" guiShape="passenger"/>
         <vType id="northToSouth" accel="0.8" decel="4.5" sigma="0.5" length="5" minGap="3" maxSpeed="60" 
         jmDriveAfterRedTime="10000" />
 

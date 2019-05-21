@@ -13,8 +13,22 @@ lowerLimitJunction = 520
 def getJsonVehicle(vehicle, step):
 	return {'step': step, 'speed': vehicle.attrib["speed"], 'pos': float(vehicle.attrib["y"])}
 
+def startParserFCD(infringingVehicles, allDataInfringingVehicles):
+	root = ET.parse('sumofcdoutput.xml').getroot()
+	for step in root.iter('timestep'):
+		for vehicle in step.iter('vehicle'):
+			locationY = float(vehicle.attrib["y"])
+			currentVehicleId = vehicle.attrib["id"]
+			if ('down' in currentVehicleId):
+				if currentVehicleId not in infringingVehicles:
+					infringingVehicles.append(currentVehicleId)
+					allDataInfringingVehicles[currentVehicleId] = []
+				allDataInfringingVehicles[currentVehicleId].append(getJsonVehicle(vehicle, step.attrib["time"]))
+				if currentVehicleId not in allDataVehicles.keys():
+					allDataVehicles[currentVehicleId] = []
+				allDataVehicles[currentVehicleId].append(getJsonVehicle(vehicle, step.attrib["time"]))
 
-def startParser(infringingVehicles, allDataInfringingVehicles):
+def startParserFullData(infringingVehicles, allDataInfringingVehicles):
 	root = ET.parse('fulldata.xml').getroot()
 	for step in root.iter('data'):
 		trafficlights = step.find('tls')
@@ -90,7 +104,7 @@ def getAllRoutesVehicles(allDataVehicles, infringingVehicles):
 
 
 if __name__ == "__main__":
-	startParser(infringingVehicles, allDataInfringingVehicles)
+	startParserFCD(infringingVehicles, allDataInfringingVehicles)
 	printInfo(infringingVehicles, allDataInfringingVehicles) if isDebugging else 0
  	routeInfringingVehicles = getAllRoutesVehicles(allDataVehicles, infringingVehicles)
 	printRoutes(routeInfringingVehicles)

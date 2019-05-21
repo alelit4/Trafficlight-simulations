@@ -20,9 +20,9 @@ def init():
 
 def getFileDefinition():
     return """<routes>
-        <vType id="westToEast" vClass="passenger" accel="0.8" decel="4.5" sigma="0.5" length="5" minGap="2.5" maxSpeed="16.67" \
+        <vType id="westToEast" vClass="passenger" accel="1.8" decel="4.5" sigma="0.5" length="5" minGap="2.5" maxSpeed="50.67" \
 guiShape="passenger"/>
-        <vType id="eastToWest" vClass="passenger" accel="0.8" decel="4.5" sigma="0.5" length="5" minGap="2.5" maxSpeed="16.67" \
+        <vType id="eastToWest" vClass="passenger" accel="1.8" decel="4.5" sigma="0.5" length="5" minGap="2.5" maxSpeed="50.67" \
 guiShape="passenger"/>
         <vType id="northToSouth" accel="0.8" decel="4.5" sigma="0.5" length="5" minGap="3" maxSpeed="60" 
         jmDriveAfterRedTime="10000" />
@@ -97,9 +97,11 @@ if __name__ == "__main__":
     # Other options
     # "--tripinfo-output", "tripinfo.xml",
     # "--netstate-dump", "dumpeo.xml"
-    # "--full-output"
-    #  "--fcd-output.geo", "--fcd-output.signals", "--fcd-output", "fulldata.xml"]
+    # FULL Data options >> "--full-output", "fulldata.xml",
+    # FCD options >>  "--fcd-output", "sumofcdoutput.xml", "--step-length", "0.025", "--device.fcd.period", "0.01"
     traci.start([sumoBinary, "-c", "data/cross.sumocfg",
-                 "--fcd-output.geo", "--full-output", "fulldata.xml"])
+                  "--fcd-output", "sumofcdoutput.xml", "--step-length", "0.025", "--device.fcd.period", "0.01" ])
+
+
     run()
 
