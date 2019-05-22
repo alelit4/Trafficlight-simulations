@@ -102,12 +102,17 @@ def printRoutesPoints(vehicles):
 			print(' %s ' % step)
 		print('-------------------------------')
 
-def saveRoutesPoints(vehicles, file="tlsredbadbehaviour.txt"):
+def saveRoutesPoints(vehicles, fileName="tlsredbadbehaviour.txt"):
+	file = open(fileName, 'w')
 	for vehicle in vehicles:
 		# print('%s' % (vehicle) ),
 		for step in vehicles[vehicle]:
 			print(' %s ' % step),
+			file.write(' %s ' % step),
 		print('')
+		file.write('\n'),
+	file.close()
+
 
 def getAllRoutesVehicles(allDataVehicles, infringingVehicles):
 	routeInfringingVehicles = {}
