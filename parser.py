@@ -1,5 +1,7 @@
 import xml.etree.ElementTree as ET
 import matplotlib.pyplot as plt
+import numpy
+import json
 
 isDebugging = False  # if it is debugging the program is verbose
 infringingVehicles = []  # The list of all infractors
@@ -92,19 +94,55 @@ def printRoutes(vehicles):
 			print('    pos = %s - vel = %s' % (step['pos'], step['speed']))
 		print('-------------------------------')
 
+def printRoutesPoints(vehicles):
+	for vehicle in vehicles:
+		print('-------------------------------')
+		print('-> Vehicle %s:' % (vehicle) )
+		for step in vehicles[vehicle]:
+			print(' %s ' % step)
+		print('-------------------------------')
+
+def saveRoutesPoints(vehicles, file="tlsredbadbehaviour.txt"):
+	for vehicle in vehicles:
+		# print('%s' % (vehicle) ),
+		for step in vehicles[vehicle]:
+			print(' %s ' % step),
+		print('')
+
 def getAllRoutesVehicles(allDataVehicles, infringingVehicles):
 	routeInfringingVehicles = {}
 	for vehicle in allDataVehicles:
 		if vehicle in infringingVehicles:
 			routeInfringingVehicles[vehicle] = allDataVehicles.get(vehicle)
-	print('infringingVehicles %d ' % len(infringingVehicles))
-	print('routeInfringingVehicles %d ' % len(routeInfringingVehicles.keys()))
+	if isDebugging:
+		print('infringingVehicles %d ' % len(infringingVehicles))
+		print('routeInfringingVehicles %d ' % len(routeInfringingVehicles.keys()))
 	return  routeInfringingVehicles
 
 
+def getNearPositionData(point, vehicle, range = 0.5):
+	nearStep = 0
+	for step in vehicle:
+		if ((step['pos'] > point - range) and (step['pos'] < point + range)):
+			nearStep = step
+	if (nearStep == 0):
+		return getNearPositionData(point, vehicle, 1)
+	return nearStep['speed']
+
+def getPointsRoutes(routeInfringingVehicles):
+	points = numpy.arange(505, 556, 5)
+	vehiclePoints = {}
+	for vehicle in routeInfringingVehicles:
+	 	vehiclePoints[vehicle] = [];
+	 	for point in points:
+	 		vehiclePoints[vehicle].append(getNearPositionData(point, routeInfringingVehicles[vehicle]) )
+	return vehiclePoints
 
 if __name__ == "__main__":
 	startParserFCD(infringingVehicles, allDataInfringingVehicles)
 	printInfo(infringingVehicles, allDataInfringingVehicles) if isDebugging else 0
  	routeInfringingVehicles = getAllRoutesVehicles(allDataVehicles, infringingVehicles)
-	printRoutes(routeInfringingVehicles)
+	printRoutes(routeInfringingVehicles) if isDebugging else 0
+	vehiclesPoints = getPointsRoutes(routeInfringingVehicles)
+	# printRoutesPoints(vehiclesPoints)
+	saveRoutesPoints(vehiclesPoints)

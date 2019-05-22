@@ -24,7 +24,7 @@ def getFileDefinition():
 guiShape="passenger"/>
         <vType id="eastToWest" vClass="passenger" accel="1.8" decel="4.5" sigma="0.5" length="5" minGap="2.5" maxSpeed="50.67" \
 guiShape="passenger"/>
-        <vType id="northToSouth" accel="0.8" decel="4.5" sigma="0.5" length="5" minGap="3" maxSpeed="60" 
+        <vType id="northToSouth" accel="1.8" decel="4.5" sigma="0.5" length="5" minGap="3" maxSpeed="60" 
         jmDriveAfterRedTime="10000" />
 
         <route id="right" edges="51o 1i 2o 52i" />
@@ -100,7 +100,7 @@ if __name__ == "__main__":
     # FULL Data options >> "--full-output", "fulldata.xml",
     # FCD options >>  "--fcd-output", "sumofcdoutput.xml", "--step-length", "0.025", "--device.fcd.period", "0.01"
     traci.start([sumoBinary, "-c", "data/cross.sumocfg",
-                  "--fcd-output", "sumofcdoutput.xml", "--step-length", "0.025", "--device.fcd.period", "0.01" ])
+                  "--fcd-output", "sumofcdoutput.xml", "--step-length", "0.01", "--device.fcd.period", "0.01" ])
 
 
     run()
