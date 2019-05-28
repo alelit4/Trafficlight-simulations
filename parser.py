@@ -5,16 +5,17 @@ import json
 
 isDebugging = False  # if it is debugging the program is verbose
 infringingVehicles = []  # The list of all infractors
+noInfringingVehicles = []  # The list of good dirvers
 allDataInfringingVehicles = {}
-allDataVehicles = {}
+allDataNoInfringingVehicles = {}
 # The reference of limits is based on the location of the juction
 upperLimitJunction = 500
 lowerLimitJunction = 520
 
-
 def getJsonVehicle(vehicle, step):
 	return {'step': step, 'speed': vehicle.attrib["speed"], 'pos': float(vehicle.attrib["y"])}
 
+# FCD is where bad behaviour was simulated
 def startParserFCD(infringingVehicles, allDataInfringingVehicles):
 	root = ET.parse('sumofcdoutput.xml').getroot()
 	for step in root.iter('timestep'):
@@ -99,40 +100,48 @@ def printRoutesPoints(vehicles):
 		print('-------------------------------')
 		print('-> Vehicle %s:' % (vehicle) )
 		for step in vehicles[vehicle]:
-			print(' %s ' % step)
-		print('-------------------------------')
+			print(' %s ' % step),
+		print('\n-------------------------------')
 
-def saveRoutesPoints(vehicles, fileName="tlsredbadbehaviour.txt"):
+def saveRoutesPoints(vehicles, fileName="tlsredbadbehaviour.txt", label=1):
 	file = open(fileName, 'w')
+	points = numpy.arange(505.0, 556.0, 5)
+	file.write('0 '),
+	for point in points:
+		print('%s ' % point),
+		file.write('%s ' % point),
+	print('')
+	file.write('\n'),
 	for vehicle in vehicles:
 		# print('%s' % (vehicle) ),
+		file.write('%s ' % label)
 		for step in vehicles[vehicle]:
-			print(' %s ' % step),
-			file.write(' %s ' % step),
+			print('%s ' % step),
+			file.write('%s ' % step)
 		print('')
 		file.write('\n'),
 	file.close()
 
 
-def getAllRoutesVehicles(allDataVehicles, infringingVehicles):
-	routeInfringingVehicles = {}
+def getAllRoutesVehicles(allDataVehicles, idVehicles):
+	routeSelectedVehicles = {}
 	for vehicle in allDataVehicles:
-		if vehicle in infringingVehicles:
-			routeInfringingVehicles[vehicle] = allDataVehicles.get(vehicle)
+		if vehicle in idVehicles:
+			routeSelectedVehicles[vehicle] = allDataVehicles.get(vehicle)
 	if isDebugging:
-		print('infringingVehicles %d ' % len(infringingVehicles))
-		print('routeInfringingVehicles %d ' % len(routeInfringingVehicles.keys()))
-	return  routeInfringingVehicles
+		print('idVehicles %d ' % len(idVehicles))
+		print('routeSelectedVehicles %d ' % len(routeSelectedVehicles.keys()))
+	return  routeSelectedVehicles
 
-
-def getNearPositionData(point, vehicle, range = 0.5):
+# To simplify the parser, the returned value is just the speed
+def getNearPositionData(point, vehicle, range = 1):
 	nearStep = 0
 	for step in vehicle:
 		if ((step['pos'] > point - range) and (step['pos'] < point + range)):
 			nearStep = step
 	if (nearStep == 0):
-		return getNearPositionData(point, vehicle, 1)
-	return nearStep['speed']
+		nearStep = getNearPositionData(point, vehicle, range+1)
+	return nearStep
 
 def getPointsRoutes(routeInfringingVehicles):
 	points = numpy.arange(505, 556, 5)
@@ -140,14 +149,29 @@ def getPointsRoutes(routeInfringingVehicles):
 	for vehicle in routeInfringingVehicles:
 	 	vehiclePoints[vehicle] = [];
 	 	for point in points:
-	 		vehiclePoints[vehicle].append(getNearPositionData(point, routeInfringingVehicles[vehicle]) )
+	 		vehiclePoints[vehicle].append(getNearPositionData(point, routeInfringingVehicles[vehicle])['speed'] )
 	return vehiclePoints
 
 if __name__ == "__main__":
+	# FCD is used to BB
+	# BAD BEHAVIOUR
+	allDataVehicles = {}
+	print('\n\nBAD BEHAVIOUR ')
 	startParserFCD(infringingVehicles, allDataInfringingVehicles)
 	printInfo(infringingVehicles, allDataInfringingVehicles) if isDebugging else 0
  	routeInfringingVehicles = getAllRoutesVehicles(allDataVehicles, infringingVehicles)
 	printRoutes(routeInfringingVehicles) if isDebugging else 0
 	vehiclesPoints = getPointsRoutes(routeInfringingVehicles)
-	# printRoutesPoints(vehiclesPoints)
+	printRoutesPoints(vehiclesPoints) if isDebugging else 0
 	saveRoutesPoints(vehiclesPoints)
+
+	# GOOD BEHAVIOUR
+	allDataVehicles = {}
+	print('\n\nGOOD BEHAVIOUR ')
+	startParserFullData(noInfringingVehicles, allDataNoInfringingVehicles)
+	printInfo(noInfringingVehicles, allDataNoInfringingVehicles) if isDebugging else 0
+ 	routeGoodVehicles = getAllRoutesVehicles(allDataVehicles, noInfringingVehicles)
+	printRoutes(routeGoodVehicles) if isDebugging else 0
+	vehiclesPoints = getPointsRoutes(routeGoodVehicles)
+	printRoutesPoints(vehiclesPoints) if isDebugging else 0
+	saveRoutesPoints(vehiclesPoints, "tlsredgoodbehaviour.txt", 0)
