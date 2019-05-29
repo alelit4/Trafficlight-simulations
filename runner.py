@@ -15,6 +15,7 @@ def init():
                            os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..'))
     sys.path.append(os.path.join(SUMO_HOME, 'tools'))
 
+
 # To have bad behavoiur -> jmDriveAfterRedTime="10000"
 def getfileDefinition(filename, jmDriveAfterRedTime = 0):
     print( """<routes>
@@ -30,7 +31,6 @@ guiShape="passenger"/>
         <route id="down" edges="54o 4i 3o 53i" />""" % jmDriveAfterRedTime, file=filename )
 
 def routeGeneratorBadBehaviour( vehiclesGenerated = 100):
-    random.seed(42)  # make tests reproducible
     # Probabilities for the creation of vehicles
     probWestToEast = 1. / 7
     probEastToWest = 1. / 7
@@ -55,7 +55,6 @@ def routeGeneratorBadBehaviour( vehiclesGenerated = 100):
         print("</routes>", file=routes)
 
 def routeGeneratorGoodBehaviour( vehiclesGenerated = 100):
-    random.seed(42)  # make tests reproducible
     with open("data/cross.rou.xml", "w") as routes:
         getfileDefinition(routes)
         vehicleNumber = 0
@@ -68,20 +67,20 @@ def routeGeneratorGoodBehaviour( vehiclesGenerated = 100):
 
 # Bad behaviour is based on FCD options
 # "--tripinfo-output", "tripinfo.xml",
-# "--netstate-dump", "dumpeo.xml"
-def badBehaviourSimulation(sumoBinary):
-    vehiclesGenerated = 100000
+# "--netstate-dump", "simulations/dumpeo.xml"
+def badBehaviourSimulation(sumoBinary, iteration):
+    vehiclesGenerated = 10000
     routeGeneratorBadBehaviour(vehiclesGenerated)
     traci.start([sumoBinary, "-c", "data/crossbad.sumocfg",
-                  "--fcd-output", "sumofcdoutput.xml", "--step-length", "0.025", "--device.fcd.period", "0.01" ])
+                  "--fcd-output", "simulations/sumofcdoutput1000_%s.xml" % iteration, "--step-length", "0.025", "--device.fcd.period", "0.01" ])
     run()
 
 # Good behaviour is based on  FULL Data options
-def goodBehaviourSimulation(sumoBinary):
+def goodBehaviourSimulation(sumoBinary, iteration):
     vehiclesGenerated = 1000
     routeGeneratorGoodBehaviour(vehiclesGenerated)
     traci.start([sumoBinary, "-c", "data/cross.sumocfg",
-                  "--full-output", "fulldata.xml",  "--max-num-vehicles", "1" ])
+                  "--full-output", "simulations/fulldata1000_%s.xml"% iteration,  "--max-num-vehicles", "1" ])
     run()
 
 def run():
@@ -112,5 +111,7 @@ def getOptions():
 if __name__ == "__main__":
     init()
     sumoBinary = getOptions()
-    badBehaviourSimulation(sumoBinary)
-    goodBehaviourSimulation(sumoBinary)
+    for i in range(1, 11):
+        random.seed(i*42)  # 42 make tests reproducible
+        badBehaviourSimulation(sumoBinary, i)
+        goodBehaviourSimulation(sumoBinary, i)
