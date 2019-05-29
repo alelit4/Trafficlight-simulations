@@ -1,3 +1,5 @@
 .idea/
 fulldata.xml
 sumofcdoutput.xml
+simulations/*
+output/*
