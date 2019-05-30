@@ -169,7 +169,7 @@ if __name__ == "__main__":
 	for i in range(1, 11):
 		cleanVariables()
 		file = "simulations/sumofcdoutput1000_%s.xml" % i
-		print('\n\n ---> Parsing BAD BEHAVIOUR of file %s', file)
+		print('\n\n ---> Parsing BAD BEHAVIOUR of file %s' % file)
 		startParserFCD(infringingVehicles, allDataInfringingVehicles, file)
 		routeInfringingVehicles = getAllRoutesVehicles(allDataVehicles, infringingVehicles)
 		# printRoutes(routeInfringingVehicles) if isDebugging else 0
@@ -182,10 +182,10 @@ if __name__ == "__main__":
 	for i in range(1, 11):
 		cleanVariables()
 		file = "simulations/fulldata1000_%s.xml" % i
-		print('\n\n ---> Parsing GOOD BEHAVIOUR of file %s', file)
+		print('\n\n ---> Parsing GOOD BEHAVIOUR of file %s' % file)
 		startParserFullData(noInfringingVehicles, allDataNoInfringingVehicles, file)
 		# printInfo(noInfringingVehicles, allDataNoInfringingVehicles) if isDebugging else 0
- 		routeGoodVehicles = getAllRoutesVehicles(allDataVehicles, noInfringingVehicles)
+		routeGoodVehicles = getAllRoutesVehicles(allDataVehicles, noInfringingVehicles)
 		# printRoutes(routeGoodVehicles) if isDebugging else 0
 		vehiclesPoints = getPointsRoutes(routeGoodVehicles)
 		# printRoutesPoints(vehiclesPoints) if isDebugging else 0
