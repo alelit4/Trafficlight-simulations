@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<connections xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:noNamespaceSchemaLocation="http://sumo.sf.net/xsd/connections_file.xsd">
+    <connection from="L32" to="L21" fromLane="0" toLane="0"/>
+    <connection from="L32" to="L21" fromLane="1" toLane="1"/>
+    <connection from="L32" to="L24" fromLane="1" toLane="1"/>
+    <connection from="L32" to="L25" fromLane="0" toLane="0"/>
+
+    <connection from="L12" to="L23" fromLane="0" toLane="0"/>
+    <connection from="L12" to="L23" fromLane="1" toLane="1"/>
+    <connection from="L12" to="L24" fromLane="0" toLane="0"/>
+    <connection from="L12" to="L25" fromLane="1" toLane="1"/>
+
+    <connection from="L42" to="L23" fromLane="0" toLane="0"/>
+    <connection from="L42" to="L21" fromLane="1" toLane="1"/>
+    <connection from="L42" to="L25" fromLane="0" toLane="0"/>
+    <connection from="L42" to="L25" fromLane="1" toLane="1"/>
+
+	<connection from="L52" to="L24" fromLane="0" toLane="0"/>
+	<connection from="L52" to="L24" fromLane="1" toLane="1"/>
+	<connection from="L52" to="L21" fromLane="0" toLane="0"/>
+	<connection from="L52" to="L23" fromLane="1" toLane="1"/>
+
+</connections>

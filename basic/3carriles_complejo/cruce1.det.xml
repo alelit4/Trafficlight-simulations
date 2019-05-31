@@ -1,0 +1,7 @@
+<additional id="d1_2" freq="300" >
+   	<detEntry id="det1" lane="L12_0" pos="0"/>
+   	<detEntry id="det2" lane="L12_1" pos="0"/>
+   	<detEntry id="det3" lane="L32_0" pos="0"/>
+   	<detEntry id="det4" lane="L32_1" pos="0"/>
+
+ </additional>

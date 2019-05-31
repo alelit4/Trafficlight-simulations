@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<routes>
+  <vType accel="3.0" decel="6.0" id="CarA" length="5.0" minGap="2.5" maxSpeed="30.0" sigma="0.5" />
+  <vType accel="2.0" decel="6.0" id="Emerg" length="7.5" minGap="2.5" maxSpeed="30.0" sigma="0.5" />
+  
+  <route id="route01" edges="L12 L23"/>
+  <route id="route02" edges="L32 L21"/>
+  <route id="route03" edges="L42 L23"/>
+  <route id="route04" edges="L42 L21"/>
+ 
+  <vehicle depart="0" id="veh0" route="route01" type="CarA" />
+  <vehicle depart="0" id="veh1" route="route02" type="CarA" />
+  <vehicle depart="0" id="veh2" route="route03" type="CarA" />
+  <vehicle depart="0" id="veh3" route="route04" type="CarA" />
+  <vehicle depart="0" id="veh4" route="route01" type="CarA" />
+  <vehicle depart="0" id="emergencia1" route="route01" type="Emerg" color="1,0,0" /> 
+  <vehicle depart="0" id="veh5" route="route02" type="CarA" />
+  <vehicle depart="0" id="veh6" route="route03" type="CarA" /> 
+  <vehicle depart="0" id="veh7" route="route04" type="CarA" />
+  
+  <vehicle depart="0" id="veh8" route="route01" type="CarA" />
+  <vehicle depart="0" id="emergencia2" route="route02" type="Emerg" color="1,0,0"/>
+  <vehicle depart="0" id="veh9" route="route02" type="CarA" />
+  <vehicle depart="0" id="veh10" route="route03" type="CarA" />
+  <vehicle depart="0" id="veh11" route="route04" type="CarA" />
+  <vehicle depart="0" id="veh12" route="route01" type="CarA" />
+  <vehicle depart="0" id="veh13" route="route02" type="CarA" />
+  <vehicle depart="0" id="veh14" route="route03" type="CarA" />
+  <vehicle depart="0" id="veh15" route="route04" type="CarA" />
+
+  <vehicle depart="0" id="veh16" route="route01" type="CarA" />
+  <vehicle depart="0" id="emergencia3" route="route03" type="Emerg" color="1,0,0"/>
+  <vehicle depart="0" id="veh17" route="route02" type="CarA" />
+  <vehicle depart="0" id="veh18" route="route03" type="CarA" /> 
+  <vehicle depart="0" id="veh19" route="route04" type="CarA" />
+  <vehicle depart="0" id="veh20" route="route01" type="CarA" />
+  <vehicle depart="0" id="veh21" route="route02" type="CarA" />
+  <vehicle depart="0" id="veh22" route="route03" type="CarA" />
+  <vehicle depart="0" id="veh23" route="route04" type="CarA" />
+
+  <vehicle depart="0" id="veh24" route="route01" type="CarA" />
+  <vehicle depart="0" id="emergencia4" route="route04" type="Emerg" color="1,0,0"/>
+  <vehicle depart="0" id="veh25" route="route02" type="CarA" />
+  <vehicle depart="0" id="veh26" route="route03" type="CarA" />
+  <vehicle depart="0" id="veh27" route="route04" type="CarA" />
+  <vehicle depart="0" id="veh28" route="route01" type="CarA" />
+  <vehicle depart="0" id="veh29" route="route02" type="CarA" />
+  <vehicle depart="0" id="veh30" route="route03" type="CarA" /> 
+  <vehicle depart="0" id="veh31" route="route04" type="CarA" />
+  <vehicle depart="0" id="emergencia5" route="route01" type="Emerg" color="1,0,0" /> 
+
+</routes>
